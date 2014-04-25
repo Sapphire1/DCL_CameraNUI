@@ -31,13 +31,13 @@ void RGBDViewer::prepareInterface() {
 	CLOG(LTRACE) << name() << "::onFinish";
 	// Register data streams, events and event handlers HERE!
 	registerStream("in_rgb", &in_rgb);
-	registerStream("in_depth", &in_depth);
+	//registerStream("in_depth", &in_depth);
 	
 	// Refresh.
 	h_onNewRGBDImage.setup(this, &RGBDViewer::onNewRGBDImage);
 	registerHandler("onNewRGBDImage", &h_onNewRGBDImage);
 	addDependency("onNewRGBDImage", &in_rgb);
-	addDependency("onNewRGBDImage", &in_depth);
+	//addDependency("onNewRGBDImage", &in_depth);
 
 	// Save.
 	h_onSaveRGBDImage.setup(this, &RGBDViewer::onSaveRGBDImage);
@@ -48,7 +48,7 @@ bool RGBDViewer::onInit() {
 	CLOG(LTRACE) << name() << "::onInit";
 	// Create windows.
 	cv::namedWindow("RGB");
-	cv::namedWindow("Depth");
+	//cv::namedWindow("Depth");
 	return true;
 }
 
@@ -56,7 +56,7 @@ bool RGBDViewer::onFinish() {
 	CLOG(LTRACE) << name() << "::onFinish";
 	// Destroy windows.
 	cv::destroyWindow("RGB");
-	cv::destroyWindow("Depth");
+	//cv::destroyWindow("Depth");
 	return true;
 }
 
@@ -72,10 +72,11 @@ void RGBDViewer::onNewRGBDImage() {
 	CLOG(LTRACE) << name() << "::onNewRGBDImage";
 	// Refresh images.
 	rgb_img = in_rgb.read();
-	depth_img = in_depth.read();
+	//depth_img = in_depth.read();
 	cv::imshow("RGB", rgb_img);
-	cv::imshow("Depth", depth_img);
+	//cv::imshow("Depth", depth_img);
 	cv::waitKey(2);
+	this->onSaveRGBDImage();
 }
 
 void RGBDViewer::onSaveRGBDImage() {
@@ -105,6 +106,7 @@ void RGBDViewer::onSaveRGBDImage() {
 			CLOG(LINFO) << "RGB image saved to file " << tmp_name <<std::endl;
 		}
 		// Save depth image.
+/*
 		if (depth_img.empty()) {
 			LOG(LWARNING) << name() << ": depth image empty";
 		} else {
@@ -114,7 +116,7 @@ void RGBDViewer::onSaveRGBDImage() {
 			imwrite(tmp_name, depthf);//, param);
 			CLOG(LINFO) << "Depth image saved to file " << tmp_name <<std::endl;
 		}
-	} catch (std::exception &ex) {
+*/	} catch (std::exception &ex) {
 		CLOG(LERROR) << "CvWindow::onSaveRGBDImage failed: " << ex.what() << "\n";
 	}
 }

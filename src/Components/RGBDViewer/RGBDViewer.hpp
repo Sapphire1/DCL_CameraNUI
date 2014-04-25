@@ -97,7 +97,7 @@ protected:
 	Base::DataStreamIn <cv::Mat> in_rgb;
 	
 	/// Input data stream containing depth.
-	Base::DataStreamIn <cv::Mat> in_depth;
+	//Base::DataStreamIn <cv::Mat> in_depth;
 
 	/// RGB image to be drawn/saved.
 	cv::Mat rgb_img;
